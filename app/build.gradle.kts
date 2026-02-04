@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.coursework_app"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -77,6 +77,7 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
+
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Room
@@ -100,6 +101,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.10.2")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 }
 
 kapt {

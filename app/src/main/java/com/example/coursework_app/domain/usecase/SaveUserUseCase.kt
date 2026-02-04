@@ -1,4 +1,3 @@
-// domain/usecase/SaveUserUseCase.kt
 package com.example.coursework_app.domain.usecase
 
 import com.example.coursework_app.domain.model.User
@@ -12,4 +11,3 @@ class SaveUserUseCase @Inject constructor(
         repository.saveUser(user)
     }
 }
-

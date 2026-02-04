@@ -12,4 +12,8 @@ import com.example.coursework_app.data.db.entity.UserEntity
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+
+    companion object {
+        const val DATABASE_NAME = "emotion_tracker.db"
+    }
 }

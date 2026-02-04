@@ -7,9 +7,11 @@ import com.example.coursework_app.domain.model.User
 import com.example.coursework_app.domain.usecase.GetUserUseCase
 import com.example.coursework_app.domain.usecase.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +39,8 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
+
+
     private fun updateName(name: String) {
         _uiState.value = _uiState.value.copy(
             name = name,
@@ -53,25 +57,37 @@ class OnboardingViewModel @Inject constructor(
 
     private fun completeOnboarding() {
         viewModelScope.launch {
-            val user = User(
+            try {
+                val user = User(
                 id = USER_ID,
                 name = _uiState.value.name,
                 selectedCharacter = _uiState.value.selectedCharacter ?: CharacterType.CAT,
                 onboardingCompleted = true
             )
-            saveUserUseCase(user)
+            withContext(Dispatchers.IO) {
+                saveUserUseCase(user)
+            }
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
         }
     }
 
     private fun skipOnboarding() {
         viewModelScope.launch {
-            val user = User(
-                id = USER_ID,
-                name = "",
-                selectedCharacter = CharacterType.CAT,
-                onboardingCompleted = true
-            )
-            saveUserUseCase(user)
+            try {
+                val user = User(
+                    id = USER_ID,
+                    name = "",
+                    selectedCharacter = CharacterType.CAT,
+                    onboardingCompleted = true
+                )
+                withContext(Dispatchers.IO) {
+                    saveUserUseCase(user)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
