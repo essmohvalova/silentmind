@@ -3,10 +3,10 @@ package com.example.coursework_app.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.coursework_app.data.db.dao.UserDao
-import com.example.coursework_app.data.db.entity.UserEntity
+import com.example.coursework_app.data.db.entity.UserEntityDb
 
 @Database(
-    entities = [UserEntity::class],
+    entities = [UserEntityDb::class],
     version = 1,
     exportSchema = false
 )
