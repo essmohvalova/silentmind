@@ -10,6 +10,7 @@ import com.example.coursework_app.data.repository.UserRepositoryImpl
 import com.example.coursework_app.domain.usecase.GetUserUseCase
 import com.example.coursework_app.domain.usecase.SaveUserUseCase
 import com.example.coursework_app.domain.usecase.ObserveUserUseCase
+import com.example.coursework_app.R
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,28 +25,26 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "emotion_tracker.db"
-        ).fallbackToDestructiveMigration() // Добавьте для избежания миграций в разработке
+            context.getString(R.string.db_name)
+        ).fallbackToDestructiveMigration()
             .build()
     }
 
     @Provides
-    @Singleton
     fun provideUserDao(database: AppDatabase): UserDao {
         return database.userDao()
     }
 
     @Provides
-    @Singleton
     fun provideUserMapper(): UserMapper {
         return UserMapper()
     }
 
     @Provides
-    @Singleton
     fun provideUserRepository(
         userDao: UserDao,
         mapper: UserMapper
@@ -54,19 +53,16 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
     fun provideSaveUserUseCase(repository: UserRepository): SaveUserUseCase {
         return SaveUserUseCase(repository)
     }
 
     @Provides
-    @Singleton
     fun provideGetUserUseCase(repository: UserRepository): GetUserUseCase {
         return GetUserUseCase(repository)
     }
 
     @Provides
-    @Singleton
     fun provideObserveUserUseCase(repository: UserRepository): ObserveUserUseCase {
         return ObserveUserUseCase(repository)
     }

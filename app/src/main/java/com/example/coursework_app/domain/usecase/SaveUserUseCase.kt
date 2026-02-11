@@ -1,13 +1,18 @@
 package com.example.coursework_app.domain.usecase
 
-import com.example.coursework_app.domain.model.User
+import com.example.coursework_app.domain.model.user.User
 import com.example.coursework_app.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SaveUserUseCase @Inject constructor(
+interface SaveUserUseCase {
+    suspend operator fun invoke(user: User)
+}
+class SaveUserUseCaseImpl @Inject constructor(
     private val repository: UserRepository
-) {
-    suspend operator fun invoke(user: User) {
+) : SaveUserUseCase {
+
+    override suspend operator fun invoke(user: User) {
         repository.saveUser(user)
     }
 }
