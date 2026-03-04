@@ -10,10 +10,10 @@ import com.example.coursework_app.data.db.entity.UserEntityDb
     version = 1,
     exportSchema = false
 )
-abstract class AppDatabase : RoomDatabase() {
+abstract class UseDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
-        const val DATABASE_NAME = "emotion_tracker.db"
+        const val DATABASE_NAME = "emotion_tracker.db" //нужно ли выносить в константу?
     }
 }

@@ -14,4 +14,12 @@
     <string name="character_cat">Cat</string>
     <string name="character_dog">Dog</string>
     <string name="character_emoji">Emoji</string>
+    <string name="guest">Гость</string>
+
+    <!-- Constants -->
+    <string name="db_name">emotion_tracker.db</string>
+
+    <!-- Screen names -->
+    <string name="main_page">Главная</string>
+    <string name="journal_page">Журнал записей</string>
 </resources>

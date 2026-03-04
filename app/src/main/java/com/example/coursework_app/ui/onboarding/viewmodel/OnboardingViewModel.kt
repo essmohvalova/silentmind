@@ -6,15 +6,12 @@ import com.example.coursework_app.domain.model.CharacterType
 import com.example.coursework_app.domain.model.user.User
 import com.example.coursework_app.domain.usecase.GetUserUseCase
 import com.example.coursework_app.domain.usecase.SaveUserUseCase
-
-import com.example.coursework_app.ui.onboarding.OnboardingEvent
-import com.example.coursework_app.ui.onboarding.OnboardingUiState
-import com.example.coursework_app.utils.runSuspendCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,142 +21,88 @@ class OnboardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
-    val uiState: StateFlow<OnboardingUiState> = _uiState
+    val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
+
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage: StateFlow<Int> = _currentPage.asStateFlow()
+
+    // Данные пользователя
+    private val userData = MutableStateFlow(
+        UserData(
+            id = UUID.randomUUID().toString(),
+            name = "",
+            email = "",
+            selectedCharacter = CharacterType.CAT,
+            onboardingCompleted = false
+        )
+    )
 
     init {
-        checkExistingUser()
+        checkIfOnboardingNeeded()
     }
 
-    fun onEvent(event: OnboardingEvent) {
-        when (event) {
-            is OnboardingEvent.OnNameChanged -> updateName(event.name)
-            is OnboardingEvent.OnCharacterSelected -> updateCharacter(event.character)
-            OnboardingEvent.OnCompleteClicked -> completeOnboarding()
-            OnboardingEvent.OnSkipClicked -> skipOnboarding()
+    fun updateName(name: String) {
+        userData.value = userData.value.copy(name = name)
+    }
+
+    fun updateEmail(email: String) {
+        userData.value = userData.value.copy(email = email)
+    }
+
+    fun selectCharacter(character: CharacterType) {
+        userData.value = userData.value.copy(selectedCharacter = character)
+    }
+
+    fun nextPage() {
+        if (_currentPage.value < 2) {
+            _currentPage.value += 1
         }
     }
 
-    private fun updateName(name: String) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                name = name,
-                isCompleteButtonEnabled = currentState.isFormValid().also {
-                }
+    fun previousPage() {
+        if (_currentPage.value > 0) {
+            _currentPage.value -= 1
+        }
+    }
+
+    fun completeOnboarding() {
+        viewModelScope.launch {
+            val user = User(
+                id = userData.value.id,
+                name = userData.value.name,
+                email = userData.value.email,
+                selectedCharacter = userData.value.selectedCharacter,
+                onboardingCompleted = true,
+                createdAt = System.currentTimeMillis()
+            )
+            saveUserUseCase(user)
+            _uiState.value = _uiState.value.copy(
+                onboardingCompleted = true,
+                user = user
             )
         }
-        updateButtonState()
     }
 
-    private fun updateCharacter(character: CharacterType) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                selectedCharacter = character
-            )
-        }
-        updateButtonState()
-    }
-
-    private fun updateButtonState() {
-        _uiState.update { currentState ->
-            currentState.copy(
-                isCompleteButtonEnabled = currentState.isFormValid()
+    private fun checkIfOnboardingNeeded() {
+        viewModelScope.launch {
+TODO()
+            _uiState.value = _uiState.value.copy(
+                isLoading = false
             )
         }
     }
 
-    private fun completeOnboarding() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+    data class OnboardingUiState(
+        val isLoading: Boolean = true,
+        val onboardingCompleted: Boolean = false,
+        val user: User? = null
+    )
 
-            val result = runSuspendCatching {
-                val user = User(
-                    id = TODO(),
-                    name = _uiState.value.name,
-                    email = "",
-                    selectedCharacter = _uiState.value.selectedCharacter ?: CharacterType.CAT,
-                    onboardingCompleted = true,
-                    createdAt = System.currentTimeMillis()
-                )
-                saveUserUseCase(user)
-            }
-
-            result.onSuccess {
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        error = null
-                    )
-                }
-            }.onFailure { error ->
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        error = error.message ?: "Не удалось сохранить пользователя"
-                    )
-                }
-            }
-        }
-    }
-
-    private fun skipOnboarding() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-
-            val result = runSuspendCatching {
-                val user = User(
-                    id = TODO("waiting for room"),
-                    name = "", // Пустое имя при пропуске
-                    email = "", // Пустой email при пропуске
-                    selectedCharacter = CharacterType.CAT, // Дефолтный персонаж
-                    onboardingCompleted = true,
-                    createdAt = System.currentTimeMillis()
-                )
-                saveUserUseCase(user)
-            }
-
-            result.onSuccess {
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        error = null
-                    )
-                }
-            }.onFailure { error ->
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        error = error.message ?: "Не удалось сохранить пользователя"
-                    )
-                }
-            }
-        }
-    }
-
-    private fun checkExistingUser() {
-        viewModelScope.launch {
-            val result = runSuspendCatching {
-                getUserUseCase()
-            }
-
-            result.onSuccess { user ->
-                user?.let {
-                    _uiState.update { state ->
-                        state.copy(
-                            name = it.name,
-                            selectedCharacter = it.selectedCharacter,
-                            isCompleteButtonEnabled = it.name.isNotBlank() && it.selectedCharacter != null
-                        )
-                    }
-                }
-            }.onFailure { error ->
-                _uiState.update { state ->
-                    state.copy(
-                        error = "Не удалось загрузить данные пользователя: ${error.message}"
-                    )
-                }
-            }
-        }
-    }
-    }
+    data class UserData(
+        val id: String,
+        val name: String,
+        val email: String,
+        val selectedCharacter: CharacterType,
+        val onboardingCompleted: Boolean
+    )
+}
