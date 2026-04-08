@@ -1,3 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Coursework-app</string>
+    <string name="app_name">Emotion Tracker</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">Welcome to Emotion Tracker</string>
+    <string name="onboarding_name_label">Enter your name</string>
+    <string name="onboarding_name_hint">Your name here</string>
+    <string name="onboarding_character_label">Choose your character</string>
+    <string name="onboarding_complete">Complete</string>
+    <string name="onboarding_skip">Skip</string>
+
+    <!-- Character names -->
+    <string name="character_cat">Cat</string>
+    <string name="character_dog">Dog</string>
+    <string name="character_emoji">Emoji</string>
+    <string name="guest">Гость</string>
+
+    <!-- Constants -->
+    <string name="db_name">emotion_tracker.db</string>
+
+    <!-- Screen names -->
+    <string name="main_page">Главная</string>
+    <string name="journal_page">Журнал записей</string>
 </resources>
