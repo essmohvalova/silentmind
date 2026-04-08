@@ -1,8 +1,11 @@
 package com.example.coursework_app.di
 
+import com.example.coursework_app.domain.preferences.UserPreferences
 import com.example.coursework_app.domain.repository.UserRepository
 import com.example.coursework_app.domain.usecase.GetUserUseCase
 import com.example.coursework_app.domain.usecase.GetUserUseCaseImpl
+import com.example.coursework_app.domain.usecase.IsUserAuthorizedUseCase
+import com.example.coursework_app.domain.usecase.IsUserAuthorizedUseCaseImpl
 import com.example.coursework_app.domain.usecase.ObserveUserUseCase
 import com.example.coursework_app.domain.usecase.ObserveUserUseCaseImpl
 import com.example.coursework_app.domain.usecase.SaveUserUseCase
@@ -29,5 +32,10 @@ object UseCasesModule {
     @Provides
     fun provideObserveUserUseCase(repository: UserRepository): ObserveUserUseCase {
         return ObserveUserUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideIsUserAuthorizedUseCase(userPreferences: UserPreferences): IsUserAuthorizedUseCase {
+        return IsUserAuthorizedUseCaseImpl(userPreferences)
     }
 }

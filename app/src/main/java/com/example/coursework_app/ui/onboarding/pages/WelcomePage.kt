@@ -1,4 +1,4 @@
-package com.example.coursework_app.ui.onboarding
+package com.example.coursework_app.ui.onboarding.pages
 
 import android.util.Patterns
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.coursework_app.ui.components.TopAppBarTitle
+import com.example.coursework_app.ui.components.AppBarSize
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun WelcomeScreen(
@@ -43,9 +44,9 @@ fun WelcomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        TopAppBarTitle(
+        AppBarTitle(
             title = "Добро пожаловать!",
-            fontSize = 28,
+            size = AppBarSize.LARGE,
             modifier = Modifier.padding(bottom = 32.dp)
         )
 

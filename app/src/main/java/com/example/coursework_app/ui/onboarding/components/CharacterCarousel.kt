@@ -39,7 +39,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.coursework_app.R
-import com.example.coursework_app.domain.model.CharacterType
+import com.example.coursework_app.domain.model.user.CharacterType
 import kotlinx.coroutines.launch
 
 @Composable

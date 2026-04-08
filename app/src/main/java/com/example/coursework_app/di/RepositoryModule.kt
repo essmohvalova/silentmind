@@ -1,9 +1,11 @@
 package com.example.coursework_app.di
 
+import com.example.coursework_app.data.db.dao.NotesDao
 import com.example.coursework_app.data.db.dao.UserDao
-import com.example.coursework_app.data.mappers.users.DbToDomainUserMapper
-import com.example.coursework_app.data.mappers.users.DomainToDbUserMapper
+import com.example.coursework_app.data.mappers.users.UserDbToDomainMapper
+import com.example.coursework_app.data.mappers.users.UserDomainToDbMapper
 import com.example.coursework_app.data.repository.UserRepositoryImpl
+import com.example.coursework_app.domain.preferences.UserPreferences
 import com.example.coursework_app.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -19,13 +21,15 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(
         userDao: UserDao,
-        dbToDomainMapper: DbToDomainUserMapper,
-        domainToDbMapper: DomainToDbUserMapper
+        dbToDomainMapper: UserDbToDomainMapper,
+        domainToDbMapper: UserDomainToDbMapper,
+        userPreferences: UserPreferences
     ): UserRepository {
         return UserRepositoryImpl(
             userDao = userDao,
-            mapperDbToDomain = dbToDomainMapper,
-            mapperDomainToDb = domainToDbMapper
+            dbToDomainMapper = dbToDomainMapper,
+            domainToDbMapper = domainToDbMapper,
+            userPreferences = userPreferences,
         )
     }
 }

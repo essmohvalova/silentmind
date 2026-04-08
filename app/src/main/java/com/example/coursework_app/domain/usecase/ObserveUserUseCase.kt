@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface ObserveUserUseCase {
+
     suspend operator fun invoke(id: String) : Flow<User?>
 }
 

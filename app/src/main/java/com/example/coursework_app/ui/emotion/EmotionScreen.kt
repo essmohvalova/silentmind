@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.coursework_app.ui.components.TopAppBarTitle
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun EmotionScreen(
@@ -25,7 +25,7 @@ fun EmotionScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBarTitle(
+        AppBarTitle(
             title = "Выбор эмоций",
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -52,6 +52,7 @@ fun EmotionScreenContent(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
+            // смапить все на этапе формирования стейта
             text = "Доступные эмоции: ${uiState.availableEmotions.joinToString(" ")}",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(vertical = 16.dp)

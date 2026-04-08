@@ -6,14 +6,14 @@ import javax.inject.Inject
 
 interface GetUserUseCase {
 
-    suspend operator fun invoke(id: String): User?
+    suspend operator fun invoke(): User?
 }
 
 class GetUserUseCaseImpl @Inject constructor(
     private val repository: UserRepository
 ) : GetUserUseCase{
 
-    override suspend operator fun invoke(id: String): User? {
-        return repository.getUser(id)
+    override suspend operator fun invoke(): User? {
+        return repository.getUser()
     }
 }

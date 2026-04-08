@@ -1,4 +1,4 @@
-package com.example.coursework_app.ui.onboarding
+package com.example.coursework_app.ui.onboarding.pages
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.coursework_app.R
-import com.example.coursework_app.ui.components.TopAppBarTitle
+import com.example.coursework_app.ui.components.AppBarSize
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun CompletionScreen(
@@ -46,9 +47,9 @@ fun CompletionScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        TopAppBarTitle(
+        AppBarTitle(
             title = "Готово!",
-            fontSize = 28,
+            size = AppBarSize.LARGE,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 

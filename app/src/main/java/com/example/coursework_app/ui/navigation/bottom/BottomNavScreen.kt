@@ -1,4 +1,4 @@
-package com.example.coursework_app.ui.navigation
+package com.example.coursework_app.ui.navigation.bottom
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
@@ -30,21 +30,15 @@ fun BottomNavScreen() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                navController = navController,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 8.dp)
-            )
+            BottomNavigationBar(navController)
         }
-    ) { innerPadding ->
-        NavGraph(
+    ) { padding ->
+        BottomNavGraph(
             navController = navController,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(padding)
         )
     }
 }
-
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,

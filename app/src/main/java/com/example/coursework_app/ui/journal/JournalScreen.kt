@@ -13,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.coursework_app.ui.components.TopAppBarTitle
-import com.example.coursework_app.R
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun JournalScreen(
@@ -26,8 +25,8 @@ fun JournalScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBarTitle(
-            title = R.string.journal_page,
+        AppBarTitle(
+            title = "Журнал записей",
             modifier = Modifier.padding(bottom = 16.dp)
         )
 

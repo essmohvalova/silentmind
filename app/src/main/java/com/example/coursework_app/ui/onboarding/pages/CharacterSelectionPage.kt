@@ -1,4 +1,4 @@
-package com.example.coursework_app.ui.onboarding
+package com.example.coursework_app.ui.onboarding.pages
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.coursework_app.domain.model.CharacterType
+import com.example.coursework_app.domain.model.user.CharacterType
+import com.example.coursework_app.ui.components.AppBarSize
 import com.example.coursework_app.ui.onboarding.components.CharacterCarousel
-import com.example.coursework_app.ui.components.TopAppBarTitle
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun CharacterSelectionScreen(
@@ -31,9 +32,9 @@ fun CharacterSelectionScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBarTitle(
+        AppBarTitle(
             title = "Выберите персонажа",
-            fontSize = 28,
+            size = AppBarSize.LARGE,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 

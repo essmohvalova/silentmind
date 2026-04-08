@@ -1,9 +1,13 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("io.gitlab.arturbosch.detekt")
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -61,6 +65,21 @@ android {
     }
 }
 
+detekt {
+    toolVersion = "1.23.6"
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    buildUponDefaultConfig = true
+    allRules = false
+}
+
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+        txt.required.set(false)
+    }
+}
+
 dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.12.0")
@@ -78,7 +97,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
 
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.0")
@@ -102,6 +122,8 @@ dependencies {
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.10.2")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
+
+    implementation("com.airbnb.android:lottie-compose:6.4.0")
 }
 
 kapt {

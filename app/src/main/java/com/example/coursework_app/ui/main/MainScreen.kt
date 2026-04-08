@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.coursework_app.ui.components.TopAppBarTitle
-import com.example.coursework_app.R
+import com.example.coursework_app.ui.components.AppBarTitle
 
 @Composable
 fun MainScreen(
@@ -27,14 +26,14 @@ fun MainScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBarTitle(
-            title = R.string.main_page,
+        AppBarTitle(
+            title = "Главная",
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         MainScreenContent(
             uiState = uiState,
-            onRefreshClick = { viewModel.loadUserData() },
+            onRefreshClick = { viewModel.loadData() },
             modifier = Modifier.weight(1f)
         )
     }

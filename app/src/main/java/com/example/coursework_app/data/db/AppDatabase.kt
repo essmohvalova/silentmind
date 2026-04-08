@@ -1,0 +1,26 @@
+package com.example.coursework_app.data.db
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.coursework_app.data.db.converters.NoteEntityConverter
+import com.example.coursework_app.data.db.dao.NotesDao
+import com.example.coursework_app.data.db.dao.UserDao
+import com.example.coursework_app.data.db.entity.notes.NoteEntityDb
+import com.example.coursework_app.data.db.entity.user.UserEntityDb
+
+@Database(
+    entities = [
+        UserEntityDb::class,
+        NoteEntityDb::class
+    ],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(NoteEntityConverter::class)
+abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun userDao(): UserDao
+
+    abstract fun notesDao(): NotesDao
+}
