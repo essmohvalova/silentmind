@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.coursework_app.R
 import com.example.coursework_app.ui.onboarding.components.OnboardingIndicator
 import com.example.coursework_app.ui.onboarding.pages.CharacterSelectionScreen
 import com.example.coursework_app.ui.onboarding.pages.CompletionScreen
@@ -59,7 +61,7 @@ fun OnboardingScreen(viewModel: OnboardingViewModel) {
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp)
             ) {
-                Text("Назад")
+                Text(stringResource(R.string.back_button))
             }
         }
     }

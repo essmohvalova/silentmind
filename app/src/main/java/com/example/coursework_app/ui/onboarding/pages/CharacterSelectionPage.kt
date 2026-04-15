@@ -12,12 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coursework_app.domain.model.user.CharacterType
 import com.example.coursework_app.ui.components.AppBarSize
 import com.example.coursework_app.ui.onboarding.components.CharacterCarousel
 import com.example.coursework_app.ui.components.AppBarTitle
+import com.example.coursework_app.R
 
 @Composable
 fun CharacterSelectionScreen(
@@ -33,13 +35,13 @@ fun CharacterSelectionScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBarTitle(
-            title = "Выберите персонажа",
+            title = stringResource(R.string.character_selection_title),
             size = AppBarSize.LARGE,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Text(
-            text = "Кто будет вашим помощником?",
+            text = stringResource(R.string.character_selection_helper_question),
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 24.dp)
@@ -60,7 +62,7 @@ fun CharacterSelectionScreen(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Продолжить", fontSize = 16.sp)
+            Text(stringResource(R.string.character_selection_next), fontSize = 16.sp)
         }
     }
 }

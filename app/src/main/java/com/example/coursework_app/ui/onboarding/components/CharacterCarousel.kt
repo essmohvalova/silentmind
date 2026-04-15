@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -47,7 +48,11 @@ fun CharacterCarousel(
     characters: List<CharacterType>,
     selectedCharacter: CharacterType,
     onCharacterSelected: (CharacterType) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
+    catName: String = stringResource(R.string.character_cat),
+    dogName: String = stringResource(R.string.character_dog),
+    emojiName: String = stringResource(R.string.character_emoji)
 ) {
     var currentIndex by remember { mutableIntStateOf(characters.indexOf(selectedCharacter).coerceAtLeast(0)) }
     val coroutineScope = rememberCoroutineScope()
@@ -55,9 +60,9 @@ fun CharacterCarousel(
 
     val characterDisplayMap = remember {
         mapOf(
-            CharacterType.CAT to CharacterDisplay("Кот", R.raw.character_cat),
-            CharacterType.DOG to CharacterDisplay("Собака", R.raw.character_dog),
-            CharacterType.EMOJI to CharacterDisplay("Эмодзи", R.raw.character_emoji)
+            CharacterType.CAT to CharacterDisplay(catName, R.raw.character_cat),
+            CharacterType.DOG to CharacterDisplay(dogName, R.raw.character_dog),
+            CharacterType.EMOJI to CharacterDisplay(emojiName, R.raw.character_emoji)
         )
     }
 
@@ -107,7 +112,7 @@ fun CharacterCarousel(
             ) {
                 Icon(
                     painter = painterResource(id = android.R.drawable.ic_media_previous),
-                    contentDescription = "Предыдущий",
+                    contentDescription = stringResource(R.string.character_previous),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
@@ -126,9 +131,9 @@ fun CharacterCarousel(
             ) {
                 Text(
                     text = if (characters[currentIndex] == selectedCharacter)
-                        "Выбрано"
+                        stringResource(R.string.character_selected)
                     else
-                        "Выбрать",
+                        stringResource(R.string.character_select),
                     fontSize = 14.sp
                 )
             }
@@ -145,7 +150,7 @@ fun CharacterCarousel(
             ) {
                 Icon(
                     painter = painterResource(id = android.R.drawable.ic_media_next),
-                    contentDescription = "Следующий",
+                    contentDescription = stringResource(R.string.character_next),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

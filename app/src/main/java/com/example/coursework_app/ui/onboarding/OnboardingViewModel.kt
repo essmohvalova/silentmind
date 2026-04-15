@@ -2,8 +2,10 @@ package com.example.coursework_app.ui.onboarding
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.coursework_app.R
 import com.example.coursework_app.domain.model.user.CharacterType
 import com.example.coursework_app.domain.model.user.User
 import com.example.coursework_app.domain.usecase.SaveUserUseCase
@@ -65,7 +67,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private data class OnboardingDataState(
-        val userName: String = "Гость",
+        val userName: String = "гость",
         val userEmail: String = "",
         val selectedCharacter: CharacterType = CharacterType.CAT,
     )
