@@ -20,6 +20,14 @@ class UserPreferencesImpl @Inject constructor(context: Context) : UserPreference
         prefs.edit { putString(KEY_USER_ID, id) }
     }
 
+    override fun isOnboardingCompleted(): Boolean {
+        return prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false)
+    }
+
+    override fun setOnboardingCompleted(completed: Boolean) {
+        prefs.edit { putBoolean(KEY_ONBOARDING_COMPLETED, completed) }
+    }
+
     override fun clearAll() {
         prefs.edit { clear() }
     }
@@ -28,5 +36,6 @@ class UserPreferencesImpl @Inject constructor(context: Context) : UserPreference
 
         private const val PREFS_NAME = "user_prefs"
         private const val KEY_USER_ID = "user_id"
+        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
     }
 }
