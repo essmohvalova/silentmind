@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.coursework_app.R
 import com.example.coursework_app.data.db.AppDatabase
 import com.example.coursework_app.data.db.converters.NoteEntityConverter
+import com.example.coursework_app.data.db.dao.MoodEntryDao
 import com.example.coursework_app.data.db.dao.NotesDao
 import com.example.coursework_app.data.db.dao.UserDao
 import com.example.coursework_app.data.preferences.UserPreferencesImpl
@@ -68,5 +69,10 @@ object StorageModule {
     @Singleton
     fun provideNoteConverters(json: Json): NoteEntityConverter {
         return NoteEntityConverter(json)
+    }
+
+    @Provides
+    fun provideMoodEntryDao(database: AppDatabase): MoodEntryDao {
+        return database.moodEntryDao()
     }
 }
