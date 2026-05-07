@@ -31,4 +31,28 @@
     <!-- Screen names -->
     <string name="main_page">Главная</string>
     <string name="journal_page">Журнал записей</string>
+    <string name="emotion_page">Эмоции</string>
+
+    <!-- CharacterSelectionScreen -->
+    <string name="character_selection_title">Выберите персонажа</string>
+    <string name="character_selection_next">Продолжить</string>
+    <string name="character_selection_helper_question">Кто будет вашим помощником?</string>
+
+
+    <!-- Completion Screen -->
+    <string name="completion_ready">Готово!</string>
+    <string name="completion_good_work">Приятной работы, %s!</string>
+    <string name="completion_ur_helper">to-do</string>
+    <string name="completion_wait_for_you">to-do</string>
+    <string name="completion_lets_start">Начнем!</string>
+
+    <!-- WelcomePage -->
+    <string name="welcome_title">Добро пожаловать!</string>
+    <string name="welcome_subtitle">Давайте познакомимся</string>
+    <string name="your_name_label">Ваше имя</string>
+    <string name="empty_name_error">Имя не может быть пустым</string>
+    <string name="email_label">Email</string>
+    <string name="email_error">Введите корректный email</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="status_loading">Загружаемся...</string>
 </resources>
