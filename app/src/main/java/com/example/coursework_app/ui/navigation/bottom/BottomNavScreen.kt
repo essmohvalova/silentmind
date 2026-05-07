@@ -15,24 +15,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.coursework_app.ui.navigation.Routes
 
 @Composable
-fun BottomNavScreen(
-    rootNavController : NavHostController
-) {
+fun BottomNavScreen() {
     val navController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+    val shouldShowBottomBar = currentRoute != Routes.BREATHING_TECHNIQUE
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController)
+            if (shouldShowBottomBar) {
+                BottomNavigationBar(navController)
+            }
         }
     ) { padding ->
         BottomNavGraph(
@@ -47,7 +51,7 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
+    val currentDestination = backStackEntry?.destination
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface,
@@ -62,7 +66,9 @@ fun BottomNavigationBar(
             )
     ) {
         BottomNavItem.items.forEach { item ->
-            val selected = currentRoute == item.route
+            val selected = currentDestination
+                ?.hierarchy
+                ?.any { it.route == item.route } == true
 
             NavigationBarItem(
                 selected = selected,
@@ -77,7 +83,7 @@ fun BottomNavigationBar(
                 },
                 icon = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = item.icon),
+                        painter = painterResource(id = item.icon),
                         contentDescription = item.title,
                         tint = if (selected)
                             MaterialTheme.colorScheme.primary
