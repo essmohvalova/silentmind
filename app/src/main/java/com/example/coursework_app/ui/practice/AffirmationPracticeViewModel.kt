@@ -33,6 +33,19 @@ class AffirmationPracticeViewModel @Inject constructor(
         observeLastMood()
     }
 
+    fun generateNewAffirmation() {
+        _uiState.update { state ->
+            state.copy(
+                quote = quoteForEmotion(state.emotionLabel),
+                hint = if (state.emotionLabel == null) {
+                    "Сначала добавьте запись настроения, чтобы получить персональную аффирмацию"
+                } else {
+                    null
+                }
+            )
+        }
+    }
+
     private fun observeLastMood() {
         observeJob?.cancel()
         _uiState.update { it.copy(isLoading = true) }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="affirmation_default_quote">Я принимаю себя и каждый день делаю шаг к внутреннему балансу.</string>
+
+    <string-array name="affirmations_joy">
+        <item>Я позволяю себе радоваться и делиться светом с окружающими.</item>
+        <item>Моя радость усиливает мою уверенность и энергию.</item>
+        <item>Я благодарен(на) за хорошие моменты сегодняшнего дня.</item>
+    </string-array>
+
+    <string-array name="affirmations_calm">
+        <item>Я в безопасности, мое дыхание ровное и спокойное.</item>
+        <item>Тишина внутри меня - мой надежный ресурс.</item>
+        <item>Я доверяю себе и двигаюсь в своем темпе.</item>
+    </string-array>
+
+    <string-array name="affirmations_sadness">
+        <item>Я бережно отношусь к своим чувствам и позволяю себе восстановиться.</item>
+        <item>Даже в грусти я остаюсь ценным(ой) и сильным(ой).</item>
+        <item>С каждым днем во мне становится больше тепла и поддержки.</item>
+    </string-array>
+
+    <string-array name="affirmations_anxiety">
+        <item>Я возвращаю внимание в настоящий момент и выбираю спокойствие.</item>
+        <item>Я справляюсь шаг за шагом, и этого достаточно.</item>
+        <item>Мое дыхание помогает мне возвращаться в устойчивость.</item>
+    </string-array>
+
+    <string-array name="affirmations_anger">
+        <item>Я умею направлять свою силу в созидание.</item>
+        <item>Я выбираю паузу и ясность вместо импульса.</item>
+        <item>Мои границы важны, и я выражаю их спокойно и уверенно.</item>
+    </string-array>
+
+    <string-array name="affirmations_fatigue">
+        <item>Отдых - это часть моей силы и эффективности.</item>
+        <item>Я бережно восстанавливаю энергию и поддерживаю себя.</item>
+        <item>Я имею право замедлиться и позаботиться о себе.</item>
+    </string-array>
+</resources>
