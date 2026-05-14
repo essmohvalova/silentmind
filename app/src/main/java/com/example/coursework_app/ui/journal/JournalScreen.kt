@@ -16,9 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.coursework_app.ui.components.AppBarTitle
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun JournalScreen(
@@ -81,7 +78,7 @@ fun JournalScreenContent(
                             )
                         }
                         Text(
-                            text = formatDate(entry.createdAt),
+                            text = entry.formattedCreatedAt,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -89,9 +86,4 @@ fun JournalScreenContent(
             }
         }
     }
-}
-
-private fun formatDate(timestamp: Long): String {
-    val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
-    return formatter.format(Date(timestamp))
 }

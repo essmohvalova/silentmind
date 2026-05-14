@@ -10,24 +10,30 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.coursework_app.R
 import com.example.coursework_app.domain.model.user.CharacterType
 import com.example.coursework_app.ui.components.AppBarSize
-import com.example.coursework_app.ui.onboarding.components.CharacterCarousel
 import com.example.coursework_app.ui.components.AppBarTitle
-import com.example.coursework_app.R
+import com.example.coursework_app.ui.onboarding.CharacterCarouselItem
+import com.example.coursework_app.ui.onboarding.CharacterCarouselItemsFactory
+import com.example.coursework_app.ui.onboarding.components.CharacterCarousel
 
 @Composable
 fun CharacterSelectionScreen(
     selectedCharacter: CharacterType,
     onCharacterSelected: (CharacterType) -> Unit,
     onNextClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    characters: List<CharacterCarouselItem>? = null,
 ) {
+    val carouselCharacters = characters ?: remember { CharacterCarouselItemsFactory.create() }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -48,7 +54,7 @@ fun CharacterSelectionScreen(
         )
 
         CharacterCarousel(
-            characters = CharacterType.entries,
+            characters = carouselCharacters,
             selectedCharacter = selectedCharacter,
             onCharacterSelected = onCharacterSelected,
             modifier = Modifier.weight(1f)

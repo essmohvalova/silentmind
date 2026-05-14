@@ -2,7 +2,7 @@ package com.example.coursework_app.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coursework_app.domain.usecase.GetUserUseCase
+import com.example.coursework_app.domain.usecase.LoadMainUserNameUseCase
 import com.example.coursework_app.utils.runSuspendCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase
+    private val loadMainUserNameUseCase: LoadMainUserNameUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -25,23 +25,17 @@ class MainViewModel @Inject constructor(
     fun loadData() {
         viewModelScope.launch {
             runSuspendCatching {
-                // посмотри на загрузку из несокльких источников данных asyncAwait, combine
-                getUserUseCase()
-            }.onSuccess { user ->
+                loadMainUserNameUseCase()
+            }.onSuccess { displayName ->
                 _uiState.value = _uiState.value.copy(
-                    userName = user?.name ?: DEFAULT_NAME
+                    userName = displayName,
                 )
             }
         }
-    }
-
-    private companion object {
-
-        const val DEFAULT_NAME: String = "Гость"
     }
 }
 
 data class MainUiState(
     val userName: String = "Гость",
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
 )

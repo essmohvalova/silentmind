@@ -1,7 +1,9 @@
 package com.example.coursework_app.domain.model.notes
 
-class Note(
+import java.time.LocalDate
+
+data class Note(
     val id: String,
-    val emotion: String,
-    val notes: Map<String, DayNote>,
+    val emotion: EmotionType,
+    val notes: Map<LocalDate, DayNote>,
 )

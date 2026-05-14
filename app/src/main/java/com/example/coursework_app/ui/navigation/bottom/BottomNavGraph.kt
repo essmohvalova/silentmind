@@ -13,7 +13,6 @@ import com.example.coursework_app.ui.navigation.bottom.emotions.emotionNavGraph
 
 @Composable
 fun BottomNavGraph(
-    //rootNavController: NavHostController,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {

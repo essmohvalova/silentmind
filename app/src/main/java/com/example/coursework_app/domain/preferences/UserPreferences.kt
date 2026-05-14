@@ -6,7 +6,7 @@ interface UserPreferences {
 
     fun setUserId(id: String)
 
-    fun isOnboardingCompleted(): Boolean
+    fun getOnboardingCompleted(): Boolean
 
     fun setOnboardingCompleted(completed: Boolean)
 

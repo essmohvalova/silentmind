@@ -9,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 
@@ -21,7 +23,7 @@ fun EmotionDetailsScreen(
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
 ) {
-    var text by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -48,11 +50,8 @@ fun EmotionDetailsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp),
-                value = text,
-                onValueChange = {
-                    text = it
-                    viewModel.changeText(it)
-                },
+                value = uiState.text,
+                onValueChange = viewModel::changeText,
                 label = {
                     Text("Что случилось?")
                 },
@@ -64,6 +63,7 @@ fun EmotionDetailsScreen(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
+            enabled = !uiState.isSaving,
             onClick = onSaveClick,
         ) {
             Text("Сохранить")
