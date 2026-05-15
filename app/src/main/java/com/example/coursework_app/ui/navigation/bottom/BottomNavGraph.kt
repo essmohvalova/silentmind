@@ -2,6 +2,7 @@ package com.example.coursework_app.ui.navigation.bottom
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,7 +23,7 @@ fun BottomNavGraph(
     ) {
 
         composable(Routes.BOTTOM_MAIN) {
-            MainScreen()
+            MainScreen(navController = navController)
         }
 
         composable(Routes.BOTTOM_JOURNAL) {

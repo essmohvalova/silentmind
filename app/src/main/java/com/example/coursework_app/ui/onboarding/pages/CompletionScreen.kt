@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -54,7 +55,7 @@ fun CompletionScreen(
         )
 
         Text(
-            text = "Приятной работы, $userName!",
+            text = stringResource(R.string.completion_good_work, userName),
             style = MaterialTheme.typography.headlineSmall,
             fontSize = 20.sp,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -73,7 +74,7 @@ fun CompletionScreen(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Начать работу!", fontSize = 16.sp)
+            Text(stringResource(R.string.completion_lets_start), fontSize = 16.sp)
         }
     }
 }

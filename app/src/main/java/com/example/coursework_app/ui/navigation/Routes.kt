@@ -16,4 +16,6 @@ object Routes {
     // emotion flow
     const val EMOTION_MAIN = "emotion_main"
     const val EMOTION_COMPLETE = "emotion_complete"
+
+    const val EMOTION_DETAILS = "emotion_details"
 }

@@ -20,12 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coursework_app.ui.components.AppBarSize
 import com.example.coursework_app.ui.components.AppBarTitle
+import com.example.coursework_app.R
+
 
 @Composable
 fun WelcomeScreen(
@@ -45,13 +48,13 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         AppBarTitle(
-            title = "Добро пожаловать!",
+            title = stringResource(R.string.welcome_title),
             size = AppBarSize.LARGE,
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
         Text(
-            text = "Давайте познакомимся",
+            text = stringResource(R.string.welcome_subtitle),
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 24.dp)
@@ -63,12 +66,12 @@ fun WelcomeScreen(
                 name = it
                 nameError = it.isBlank()
             },
-            label = { Text("Ваше имя") },
+            label = { Text(stringResource(R.string.your_name_label)) },
             modifier = Modifier.fillMaxWidth(),
             isError = nameError,
             supportingText = {
                 if (nameError) {
-                    Text("Имя не может быть пустым")
+                    Text(stringResource(R.string.empty_name_error))
                 }
             },
             keyboardOptions = KeyboardOptions(
@@ -86,12 +89,12 @@ fun WelcomeScreen(
                 email = it
                 emailError = !Patterns.EMAIL_ADDRESS.matcher(it).matches() && it.isNotBlank()
             },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.email_label)) },
             modifier = Modifier.fillMaxWidth(),
             isError = emailError,
             supportingText = {
                 if (emailError) {
-                    Text("Введите корректный email")
+                    Text(stringResource(R.string.email_error))
                 }
             },
             keyboardOptions = KeyboardOptions(
@@ -110,7 +113,7 @@ fun WelcomeScreen(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Продолжить", fontSize = 16.sp)
+            Text(stringResource(R.string.continue_button), fontSize = 16.sp)
         }
     }
 }

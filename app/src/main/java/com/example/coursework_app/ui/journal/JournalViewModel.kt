@@ -1,33 +1,66 @@
 package com.example.coursework_app.ui.journal
 
+
+
 import androidx.lifecycle.ViewModel
+
 import androidx.lifecycle.viewModelScope
-import com.example.coursework_app.domain.usecase.GetUserUseCase
+
+import com.example.coursework_app.domain.usecase.ObserveJournalMoodEntriesUseCase
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
+
 import kotlinx.coroutines.flow.StateFlow
+
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
+
+
 @HiltViewModel
+
 class JournalViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase
+
+    private val observeJournalMoodEntriesUseCase: ObserveJournalMoodEntriesUseCase,
+
+    private val journalEntryUiFactory: JournalEntryUiFactory,
+
 ) : ViewModel() {
 
+
+
     private val _uiState = MutableStateFlow(JournalUiState())
+
     val uiState: StateFlow<JournalUiState> = _uiState
 
-    fun loadEntries() {
+
+
+    init {
+
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(
-                entriesCount = 42,  // Заглушка
-                isLoading = false
-            )
+
+            observeJournalMoodEntriesUseCase().collect { domainEntries ->
+
+                val entries = domainEntries.map { journalEntryUiFactory.fromDomain(it) }
+
+                _uiState.value = JournalUiState(
+
+                    entriesCount = entries.size,
+
+                    entries = entries,
+
+                    isLoading = false,
+
+                )
+
+            }
+
         }
+
     }
+
 }
 
-data class JournalUiState(
-    val entriesCount: Int = 0,
-    val isLoading: Boolean = true
-)

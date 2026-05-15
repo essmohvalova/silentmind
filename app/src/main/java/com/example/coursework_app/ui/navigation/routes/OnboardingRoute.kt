@@ -18,13 +18,14 @@ fun OnboardingRoute(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    OnboardingScreen(viewModel = viewModel)
-
     LaunchedEffect(state.onboardingCompleted) {
         if (state.onboardingCompleted) {
             navController.navigate(Routes.BOTTOM) {
-                popUpTo(Routes.BOTTOM_MAIN) { inclusive = true }
+                popUpTo(Routes.ONBOARDING) { inclusive = true }
+                launchSingleTop = true
             }
         }
     }
+
+    OnboardingScreen(viewModel = viewModel)
 }

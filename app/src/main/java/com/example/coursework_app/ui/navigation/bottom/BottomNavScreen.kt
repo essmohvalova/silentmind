@@ -25,7 +25,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun BottomNavScreen() {
+fun BottomNavScreen(
+    rootNavController : NavHostController
+) {
     val navController = rememberNavController()
 
     Scaffold(

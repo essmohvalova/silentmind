@@ -25,12 +25,14 @@ fun WelcomeRoute(
             when (it) {
                 WelcomeState.Destination.MAIN -> {
                     navController.navigate(Routes.BOTTOM) {
-                        popUpTo(Routes.BOTTOM_MAIN) { inclusive = true }
+                        popUpTo(Routes.WELCOME) { inclusive = true }
+                        launchSingleTop = true
                     }
                 }
                 WelcomeState.Destination.ONBOARDING -> {
                     navController.navigate(Routes.ONBOARDING) {
-                        popUpTo(Routes.ONBOARDING) { inclusive = true }
+                        popUpTo(Routes.WELCOME) { inclusive = true }
+                        launchSingleTop = true
                     }
                 }
             }

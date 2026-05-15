@@ -6,5 +6,10 @@ interface UserPreferences {
 
     fun setUserId(id: String)
 
+    fun getOnboardingCompleted(): Boolean
+
+    fun setOnboardingCompleted(completed: Boolean)
+
     fun clearAll()
+
 }
