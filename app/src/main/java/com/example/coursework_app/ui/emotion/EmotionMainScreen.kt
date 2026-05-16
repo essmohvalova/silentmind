@@ -2,7 +2,6 @@ package com.example.coursework_app.ui.emotion
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,23 +10,22 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.coursework_app.domain.model.emotion.Emotion
 
 @Composable
 fun EmotionMainScreen(
     viewModel: EmotionViewModel,
     onNextClick: () -> Unit,
 ) {
-    var selectedEmotionId by remember { mutableStateOf(viewModel.selectedEmotion?.id) }
-    val emotions = Emotion.defaultList
-    var intensity by remember { mutableIntStateOf(viewModel.intensity) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val emotions = viewModel.availableEmotionsUi
 
     Column(
         modifier = Modifier
@@ -45,7 +43,7 @@ fun EmotionMainScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Интенсивность: $intensity",
+                text = "Интенсивность: ${uiState.intensity}",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -54,11 +52,8 @@ fun EmotionMainScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             EmotionIntensityDots(
-                value = intensity,
-                onValueChange = {
-                    intensity = it
-                    viewModel.changeIntensity(it)
-                },
+                value = uiState.intensity,
+                onValueChange = viewModel::changeIntensity,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -71,12 +66,9 @@ fun EmotionMainScreen(
                     row.forEach { emotion ->
                         EmotionItem(
                             emotion = emotion,
-                            selected = selectedEmotionId == emotion.id,
+                            selected = uiState.selectedEmotion?.id == emotion.id,
                             modifier = Modifier.weight(1f),
-                            onClick = {
-                                selectedEmotionId = emotion.id
-                                viewModel.selectEmotion(emotion)
-                            }
+                            onClick = { viewModel.selectEmotion(emotion) },
                         )
                     }
                 }
@@ -87,7 +79,7 @@ fun EmotionMainScreen(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = selectedEmotionId != null,
+            enabled = uiState.selectedEmotion != null,
             onClick = onNextClick,
         ) {
             Text("Далее")
@@ -156,7 +148,7 @@ private fun EmotionIntensityDots(
 
 @Composable
 private fun EmotionItem(
-    emotion: Emotion,
+    emotion: EmotionUi,
     selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,

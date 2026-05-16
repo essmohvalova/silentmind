@@ -3,68 +3,79 @@ package com.example.coursework_app.ui.emotion
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coursework_app.domain.model.emotion.Emotion
-import com.example.coursework_app.domain.model.mood.MoodEntry
-import com.example.coursework_app.domain.preferences.UserPreferences
-import com.example.coursework_app.domain.repository.MoodEntryRepository
+import com.example.coursework_app.domain.usecase.SaveMoodEntryResult
+import com.example.coursework_app.domain.usecase.SaveMoodEntryUseCase
+import com.example.coursework_app.ui.emotion.mapper.EmotionUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class EmotionViewModel @Inject constructor(
-    private val moodEntryRepository: MoodEntryRepository,
-    private val userPreferences: UserPreferences,
+    private val saveMoodEntryUseCase: SaveMoodEntryUseCase,
+    private val emotionUiMapper: EmotionUiMapper,
 ) : ViewModel() {
 
-    var selectedEmotion: Emotion? = null
-        private set
+    val availableEmotionsUi: List<EmotionUi> =
+        emotionUiMapper.toUiList(Emotion.defaultList)
 
-    var intensity: Int = 3
-        private set
-
-    var text: String = ""
-        private set
+    private val _uiState = MutableStateFlow(EmotionUiState())
+    val uiState: StateFlow<EmotionUiState> = _uiState.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
-    fun selectEmotion(emotion: Emotion) {
-        selectedEmotion = emotion
+    fun selectEmotion(emotionUi: EmotionUi) {
+        _uiState.update {
+            it.copy(selectedEmotion = emotionUiMapper.toDomain(emotionUi))
+        }
     }
 
     fun changeIntensity(value: Int) {
-        intensity = value
+        _uiState.update { it.copy(intensity = value) }
     }
 
     fun changeText(value: String) {
-        text = value
+        _uiState.update { it.copy(text = value) }
     }
 
     fun save() {
-        val userId = userPreferences.getUserId()
-        val emotion = selectedEmotion
-
-        if (userId == null || emotion == null) return
-
         viewModelScope.launch {
-            runCatching {
-                moodEntryRepository.saveMoodEntry(
-                    MoodEntry(
-                        id = UUID.randomUUID().toString(),
-                        userId = userId,
-                        emotion = emotion.text,
-                        intensity = intensity,
-                        text = text.takeIf { it.isNotBlank() },
-                        createdAt = System.currentTimeMillis(),
-                    )
+            val snapshot = _uiState.value
+            _uiState.update { it.copy(isSaving = true) }
+
+            try {
+                val result = saveMoodEntryUseCase(
+                    emotionName = snapshot.selectedEmotion?.text,
+                    intensity = snapshot.intensity,
+                    noteText = snapshot.text,
                 )
-            }.onSuccess {
-                _events.emit(Event.Saved)
-            }.onFailure { throwable ->
-                _events.emit(Event.SaveFailed(throwable.message ?: "Unknown save error"))
+
+                when (result) {
+                    SaveMoodEntryResult.Success -> {
+                        _events.emit(Event.Saved)
+                    }
+
+                    SaveMoodEntryResult.NoLoggedInUser -> {
+                        _events.emit(Event.SaveFailed("Пользователь не авторизован"))
+                    }
+
+                    SaveMoodEntryResult.NoEmotionSelected -> {
+                        _events.emit(Event.SaveFailed("Эмоция не выбрана"))
+                    }
+
+                    is SaveMoodEntryResult.Failure -> {
+                        _events.emit(Event.SaveFailed(result.message))
+                    }
+                }
+            } finally {
+                _uiState.update { it.copy(isSaving = false) }
             }
         }
     }

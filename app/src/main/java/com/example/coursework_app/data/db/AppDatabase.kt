@@ -16,7 +16,7 @@ import com.example.coursework_app.data.db.entity.mood.MoodEntryEntity
         NoteEntityDb::class,
         MoodEntryEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(NoteEntityConverter::class)

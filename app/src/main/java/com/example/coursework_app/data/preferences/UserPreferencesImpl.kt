@@ -20,7 +20,7 @@ class UserPreferencesImpl @Inject constructor(context: Context) : UserPreference
         prefs.edit { putString(KEY_USER_ID, id) }
     }
 
-    override fun isOnboardingCompleted(): Boolean {
+    override fun getOnboardingCompleted(): Boolean {
         return prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false)
     }
 

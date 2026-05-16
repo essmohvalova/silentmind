@@ -37,12 +37,12 @@ fun OnboardingScreen(viewModel: OnboardingViewModel) {
                     }
                 )
                 1 -> CharacterSelectionScreen(
-                    selectedCharacter = uiState.dataState.selectedCharacter,
+                    selectedCharacter = uiState.contentData.selectedCharacter,
                     onCharacterSelected = { viewModel.selectCharacter(it) },
                     onNextClicked = { viewModel.nextPage() }
                 )
                 2 -> CompletionScreen(
-                    userName = uiState.dataState.userName,
+                    userName = uiState.contentData.userName,
                     onFinishClicked = { viewModel.completeOnboarding() }
                 )
             }

@@ -5,6 +5,7 @@ import com.example.coursework_app.domain.model.notes.Note
 import com.example.coursework_app.domain.repository.NotesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import java.time.LocalDate
 import javax.inject.Inject
 
 // TODO() добавить мапперы, настроить di, добавить useCases
@@ -16,7 +17,7 @@ class NotesRepositoryImpl @Inject constructor(
        // TODO() реализовать
     }
 
-    override suspend fun getNoteByDateTime(dateTime: String): Note? {
+    override suspend fun getNoteByDate(date: LocalDate): Note? {
         // TODO() реализовать
         return null
     }

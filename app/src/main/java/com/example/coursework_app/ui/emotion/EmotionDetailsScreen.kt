@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -52,16 +53,19 @@ fun EmotionDetailsScreen(
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
 ) {
-    val selectedEmotion = viewModel.selectedEmotion
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val selectedEmotion = uiState.selectedEmotion
     val accentColor = selectedEmotion.toAccentColor()
     val supportText = selectedEmotion.toSupportText()
     val scrollState = rememberScrollState()
-    var text by remember(viewModel.text) { mutableStateOf(viewModel.text) }
     val maxChars = 500
+
     val quickTags = remember {
         listOf("Сон", "Работа", "Учеба", "Люди", "Здоровье", "Погода", "Отдых", "Еда")
     }
     var selectedTags by remember { mutableStateOf(setOf<String>()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -146,7 +150,7 @@ fun EmotionDetailsScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Интенсивность: ${viewModel.intensity}/5",
+                                text = "Интенсивность: ${uiState.intensity}/5",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -187,11 +191,9 @@ fun EmotionDetailsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(180.dp),
-                            value = text,
+                            value = uiState.text,
                             onValueChange = {
-                                val trimmed = it.take(maxChars)
-                                text = trimmed
-                                viewModel.changeText(trimmed)
+                                viewModel.changeText(it.take(maxChars))
                             },
                             placeholder = {
                                 Text("Опиши, что произошло или что ты сейчас чувствуешь…")
@@ -209,7 +211,7 @@ fun EmotionDetailsScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "${text.length}/$maxChars",
+                            text = "${uiState.text.length}/$maxChars",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.align(Alignment.End),

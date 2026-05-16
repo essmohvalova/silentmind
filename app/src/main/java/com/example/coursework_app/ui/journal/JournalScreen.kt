@@ -452,14 +452,7 @@ private fun JournalEntryCard(
                         .background(accent.copy(alpha = 0.2f)),
                     contentAlignment = Alignment.Center,
                 ) {
-                    emotionMeta?.let {
-                        Icon(
-                            painter = painterResource(id = it.iconRes),
-                            contentDescription = it.text,
-                            tint = Color.Unspecified,
-                            modifier = Modifier.size(28.dp),
-                        )
-                    } ?: Text("🙂")
+                 Text("🙂")
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {

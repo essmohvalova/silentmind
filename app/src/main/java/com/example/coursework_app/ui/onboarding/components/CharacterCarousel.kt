@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -41,56 +42,53 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.coursework_app.R
 import com.example.coursework_app.domain.model.user.CharacterType
+import com.example.coursework_app.ui.onboarding.CharacterCarouselItem
 import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterCarousel(
-    characters: List<CharacterType>,
+    characters: List<CharacterCarouselItem>,
     selectedCharacter: CharacterType,
     onCharacterSelected: (CharacterType) -> Unit,
     modifier: Modifier = Modifier,
-
-    catName: String = stringResource(R.string.character_cat),
-    dogName: String = stringResource(R.string.character_dog),
-    emojiName: String = stringResource(R.string.character_emoji)
 ) {
-    var currentIndex by remember { mutableIntStateOf(characters.indexOf(selectedCharacter).coerceAtLeast(0)) }
-    val coroutineScope = rememberCoroutineScope()
-    val scale = remember { Animatable(1f) }
 
-    val characterDisplayMap = remember {
-        mapOf(
-            CharacterType.CAT to CharacterDisplay(catName, R.raw.character_cat),
-            CharacterType.DOG to CharacterDisplay(dogName, R.raw.character_dog),
-            CharacterType.EMOJI to CharacterDisplay(emojiName, R.raw.character_emoji)
+    require(characters.isNotEmpty()) { "CharacterCarousel: characters must not be empty" }
+
+    var currentIndex by remember(characters) {
+        mutableIntStateOf(
+            characters.indexOfFirst { it.type == selectedCharacter }.takeIf { it >= 0 } ?: 0
         )
     }
+
+    LaunchedEffect(selectedCharacter, characters) {
+        val idx = characters.indexOfFirst { it.type == selectedCharacter }
+        if (idx >= 0) currentIndex = idx
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+    val scale = remember { Animatable(1f) }
 
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val currentItem = characters[currentIndex]
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp),
             contentAlignment = Alignment.Center
         ) {
-            val currentCharacter = characters[currentIndex]
-            val display = characterDisplayMap[currentCharacter]
-
-            if (display != null) {
-                CharacterCard(
-                    character = currentCharacter,
-                    displayName = display.displayName,
-                    lottieRes = display.lottieRes,
-                    isSelected = currentCharacter == selectedCharacter,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp)
-                        .scale(scale.value)
-                )
-            }
+            CharacterCard(
+                lottieRes = currentItem.lottieRes,
+                isSelected = currentItem.type == selectedCharacter,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp)
+                    .scale(scale.value)
+            )
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -119,10 +117,10 @@ fun CharacterCarousel(
 
             Button(
                 onClick = {
-                    onCharacterSelected(characters[currentIndex])
+                    onCharacterSelected(currentItem.type)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (characters[currentIndex] == selectedCharacter)
+                    containerColor = if (currentItem.type == selectedCharacter)
                         MaterialTheme.colorScheme.secondary
                     else
                         MaterialTheme.colorScheme.primary
@@ -130,7 +128,7 @@ fun CharacterCarousel(
                 modifier = Modifier.width(120.dp)
             ) {
                 Text(
-                    text = if (characters[currentIndex] == selectedCharacter)
+                    text = if (currentItem.type == selectedCharacter)
                         stringResource(R.string.character_selected)
                     else
                         stringResource(R.string.character_select),
@@ -178,7 +176,7 @@ fun CharacterCarousel(
         }
 
         Text(
-            text = characterDisplayMap[characters[currentIndex]]?.displayName ?: "",
+            text = stringResource(currentItem.displayNameRes),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -187,8 +185,6 @@ fun CharacterCarousel(
 
 @Composable
 fun CharacterCard(
-    character: CharacterType,
-    displayName: String,
     lottieRes: Int,
     isSelected: Boolean,
     modifier: Modifier = Modifier
@@ -219,8 +215,3 @@ fun CharacterCard(
         }
     }
 }
-
-private data class CharacterDisplay(
-    val displayName: String,
-    val lottieRes: Int
-)
