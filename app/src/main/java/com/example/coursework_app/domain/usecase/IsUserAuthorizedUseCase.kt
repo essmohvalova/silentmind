@@ -13,6 +13,6 @@ class IsUserAuthorizedUseCaseImpl @Inject constructor(
 ) : IsUserAuthorizedUseCase{
 
     override suspend operator fun invoke(): Boolean {
-        return userPreferences.isOnboardingCompleted()
+        return userPreferences.getOnboardingCompleted()
     }
 }
