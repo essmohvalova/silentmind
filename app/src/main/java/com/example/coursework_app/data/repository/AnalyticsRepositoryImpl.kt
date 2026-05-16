@@ -116,7 +116,8 @@ class AnalyticsRepositoryImpl @Inject constructor(
     }
 
     private fun buildTriggerAssociations(entries: List<MoodEntry>): List<TriggerAssociation> {
-        val tagged = entries.filter { it.tags.isNotEmpty() }
+
+        /*val tagged = entries.filter { it.tags.isNotEmpty() }
         val byTag = mutableMapOf<String, MutableList<MoodEntry>>()
         tagged.forEach { entry ->
             entry.tags.forEach { rawTag ->
@@ -137,11 +138,15 @@ class AnalyticsRepositoryImpl @Inject constructor(
                     totalTaggedEntries = tagEntries.size,
                 )
             }
-            .sortedByDescending { it.totalTaggedEntries }
+            .sortedByDescending { it.totalTaggedEntries }*/
+
+        // Tags are not persisted in MoodEntry yet; return empty until the model supports them.
+        return emptyList()
     }
 
     private fun buildPracticeImpact(entries: List<MoodEntry>): List<PracticeImpact> {
-        val ordered = entries.sortedBy { it.createdAt }
+
+        /*val ordered = entries.sortedBy { it.createdAt }
         val practiceCandidates = ordered.filter { entry ->
             entry.tags.any { tag -> isPracticeTag(tag) }
         }
@@ -165,7 +170,10 @@ class AnalyticsRepositoryImpl @Inject constructor(
                 avgIntensityDelta = deltas.map { it.first }.average().toFloat(),
                 positiveEmotionDelta = deltas.map { it.second }.average().toFloat(),
             )
-        }.sortedByDescending { it.comparedSessions }
+        }.sortedByDescending { it.comparedSessions }*/
+
+        // Tags are not persisted in MoodEntry yet; return empty until the model supports them.
+        return emptyList()
     }
 
     private fun buildInsightText(
