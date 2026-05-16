@@ -12,8 +12,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import com.example.coursework_app.data.db.dao.MoodEntryDao
-import com.example.coursework_app.data.mappers.mood.MoodEntryMapper
+import com.example.coursework_app.data.mappers.mood.MoodDbToDomainMapper
+import com.example.coursework_app.data.mappers.mood.MoodDomainToDbMapper
+import com.example.coursework_app.data.repository.AnalyticsRepositoryImpl
 import com.example.coursework_app.data.repository.MoodEntryRepositoryImpl
+import com.example.coursework_app.domain.repository.AnalyticsRepository
 import com.example.coursework_app.domain.repository.MoodEntryRepository
 
 @Module
@@ -40,11 +43,21 @@ object RepositoryModule {
     @Singleton
     fun provideMoodEntryRepository(
         dao: MoodEntryDao,
-        mapper: MoodEntryMapper,
+        dbToDomainMapper: MoodDbToDomainMapper,
+        domainToDbMapper: MoodDomainToDbMapper
     ): MoodEntryRepository {
         return MoodEntryRepositoryImpl(
             dao = dao,
-            mapper = mapper,
+            moodDbToDomainMapper = dbToDomainMapper,
+            moodDomainToDbMapper = domainToDbMapper
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnalyticsRepository(
+        moodEntryRepository: MoodEntryRepository,
+    ): AnalyticsRepository {
+        return AnalyticsRepositoryImpl(moodEntryRepository)
     }
 }

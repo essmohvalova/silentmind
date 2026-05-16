@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import com.example.coursework_app.R
 import com.example.coursework_app.domain.model.emotion.Emotion
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -137,7 +138,7 @@ fun EmotionDetailsScreen(
                         ) {
                             selectedEmotion?.let { emotion ->
                                 Image(
-                                    painter = painterResource(id = emotion.iconRes),
+                                    painter = painterResource(id = emotion.toIconRes()),
                                     contentDescription = emotion.text,
                                     modifier = Modifier.size(30.dp),
                                 )
@@ -266,6 +267,16 @@ private fun Emotion?.toSupportText(): String = when (this?.id) {
     "anger" -> "Дай этому чувству безопасное место."
     "fatigue" -> "Твоему телу может быть нужен отдых."
     else -> "Отметь свои ощущения, чтобы лучше понимать себя."
+}
+
+private fun Emotion.toIconRes(): Int = when (id) {
+    "joy" -> R.drawable.ic_happy_smile
+    "calm" -> R.drawable.ic_calm_smile
+    "sadness" -> R.drawable.ic_sad_smile
+    "anxiety" -> R.drawable.ic_anxiety_smile
+    "anger" -> R.drawable.ic_angry_smile
+    "fatigue" -> R.drawable.ic_tired_smile
+    else -> R.drawable.ic_happy_smile
 }
 
 private fun Emotion?.toAccentColor(): Color = when (this?.id) {
