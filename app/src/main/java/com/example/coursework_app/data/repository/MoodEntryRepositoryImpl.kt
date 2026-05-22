@@ -16,7 +16,7 @@ class MoodEntryRepositoryImpl @Inject constructor(
 ) : MoodEntryRepository {
 
     override suspend fun saveMoodEntry(entry: MoodEntry) {
-        dao.insert(moodDomainToDbMapper(entry));
+        dao.insert(moodDomainToDbMapper(entry))
     }
 
     override fun observeMoodEntries(userId: String): Flow<List<MoodEntry>> {

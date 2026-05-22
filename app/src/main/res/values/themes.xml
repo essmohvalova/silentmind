@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Courseworkapp" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Courseworkapp" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Fallback for startup before Compose runtime applies system bar colors -->
+        <item name="android:navigationBarColor">#EEE7D4</item>
+    </style>
 </resources>

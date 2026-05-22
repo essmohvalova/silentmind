@@ -25,7 +25,7 @@ fun RootNavGraph() {
         }
 
         composable(Routes.BOTTOM) {
-            BottomNavScreen(navController)
+            BottomNavScreen()
         }
     }
 }

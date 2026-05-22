@@ -42,14 +42,14 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMoodEntryRepository(
-        moodDao: MoodEntryDao,
-        moodDbToDomainMapper: MoodDbToDomainMapper,
-        moodDomainToDbMapper: MoodDomainToDbMapper
+        dao: MoodEntryDao,
+        dbToDomainMapper: MoodDbToDomainMapper,
+        domainToDbMapper: MoodDomainToDbMapper
     ): MoodEntryRepository {
         return MoodEntryRepositoryImpl(
-            dao = moodDao,
-            moodDbToDomainMapper = moodDbToDomainMapper,
-            moodDomainToDbMapper = moodDomainToDbMapper
+            dao = dao,
+            moodDbToDomainMapper = dbToDomainMapper,
+            moodDomainToDbMapper = domainToDbMapper
         )
     }
 

@@ -1,12 +1,19 @@
 package com.example.coursework_app.ui.theme
 
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 
 // Светлая цветовая схема
 private val LightColorScheme = lightColorScheme(
@@ -109,10 +116,28 @@ fun CourseworkAppTheme(
     } else {
         LightColorScheme
     }
+    val view = LocalView.current
+
+    if (!view.isInEditMode) {
+        SideEffect {
+            view.context.findActivity()?.window?.let { window ->
+                // Keep system navbar color aligned with app surface/background to avoid a "split" UI.
+                window.navigationBarColor = colorScheme.background.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                    !darkTheme
+            }
+        }
+    }
 
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,  // Убедитесь, что у вас есть файл Typography.kt
         content = content
     )
+}
+
+private tailrec fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

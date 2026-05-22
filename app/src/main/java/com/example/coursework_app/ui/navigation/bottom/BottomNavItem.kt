@@ -12,22 +12,28 @@ sealed class BottomNavItem(
     object Main : BottomNavItem(
         route = Routes.BOTTOM_MAIN,
         title = "Главная",
-        icon = R.drawable.ic_arrow_left
+        icon = R.drawable.ic_menu_home
     )
 
     object Journal : BottomNavItem(
         route = Routes.BOTTOM_JOURNAL,
         title = "Журнал",
-        icon = R.drawable.ic_arrow_right
+        icon = R.drawable.ic_navbar_journal
     )
 
     object Emotion : BottomNavItem(
-        route = Routes.EMOTION_GRAPH, // 👈 ключевой момент
+        route = Routes.EMOTION_GRAPH,
         title = "Эмоции",
-        icon = R.drawable.ic_back
+        icon = R.drawable.ic_navbar_mood
+    )
+
+    object Practice : BottomNavItem(
+        route = Routes.PRACTICE_GRAPH,
+        title = "Практики",
+        icon = R.drawable.ic_navbar_practice
     )
 
     companion object {
-        val items = listOf(Main, Journal, Emotion)
+        val items = listOf(Main, Journal, Emotion, Practice)
     }
 }

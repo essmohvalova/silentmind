@@ -116,63 +116,12 @@ class AnalyticsRepositoryImpl @Inject constructor(
     }
 
     private fun buildTriggerAssociations(entries: List<MoodEntry>): List<TriggerAssociation> {
-
-        /*val tagged = entries.filter { it.tags.isNotEmpty() }
-        val byTag = mutableMapOf<String, MutableList<MoodEntry>>()
-        tagged.forEach { entry ->
-            entry.tags.forEach { rawTag ->
-                val tag = rawTag.trim()
-                if (tag.isNotEmpty()) {
-                    byTag.getOrPut(tag) { mutableListOf() }.add(entry)
-                }
-            }
-        }
-        return byTag.entries
-            .mapNotNull { (tag, tagEntries) ->
-                val counts = tagEntries.groupingBy { it.emotion }.eachCount()
-                val dominant = counts.maxByOrNull { it.value } ?: return@mapNotNull null
-                TriggerAssociation(
-                    tag = tag,
-                    dominantEmotion = dominant.key,
-                    percentage = dominant.value * 100f / tagEntries.size,
-                    totalTaggedEntries = tagEntries.size,
-                )
-            }
-            .sortedByDescending { it.totalTaggedEntries }*/
-
         // Tags are not persisted in MoodEntry yet; return empty until the model supports them.
         return emptyList()
     }
 
     private fun buildPracticeImpact(entries: List<MoodEntry>): List<PracticeImpact> {
-
-        /*val ordered = entries.sortedBy { it.createdAt }
-        val practiceCandidates = ordered.filter { entry ->
-            entry.tags.any { tag -> isPracticeTag(tag) }
-        }
-        val impacts = mutableMapOf<String, MutableList<Pair<Float, Float>>>()
-        practiceCandidates.forEach { current ->
-            val previous = ordered.lastOrNull { it.createdAt < current.createdAt && current.createdAt - it.createdAt <= DAY_MS }
-            val next = ordered.firstOrNull { it.createdAt > current.createdAt && it.createdAt - current.createdAt <= DAY_MS }
-            if (previous != null && next != null) {
-                val intensityDelta = next.intensity - previous.intensity.toFloat()
-                val moodDelta = emotionScore(next.emotion) - emotionScore(previous.emotion)
-                current.tags.filter(::isPracticeTag).forEach { tag ->
-                    impacts.getOrPut(tag) { mutableListOf() }.add(intensityDelta to moodDelta)
-                }
-            }
-        }
-        return impacts.entries.mapNotNull { (tag, deltas) ->
-            if (deltas.size < 2) return@mapNotNull null
-            PracticeImpact(
-                practiceTag = tag,
-                comparedSessions = deltas.size,
-                avgIntensityDelta = deltas.map { it.first }.average().toFloat(),
-                positiveEmotionDelta = deltas.map { it.second }.average().toFloat(),
-            )
-        }.sortedByDescending { it.comparedSessions }*/
-
-        // Tags are not persisted in MoodEntry yet; return empty until the model supports them.
+        // Practice tags are not persisted in MoodEntry yet; return empty until the model supports them.
         return emptyList()
     }
 
